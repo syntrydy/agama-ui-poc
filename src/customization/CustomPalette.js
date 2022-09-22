@@ -1,5 +1,8 @@
+const MAX_NUMBER_OF_REPEAT = 3
+
 export default class CustomPalette {
-    constructor(create, elementFactory, palette, translate) {
+    constructor(bpmnFactory, create, elementFactory, palette, translate) {
+      this.bpmnFactory = bpmnFactory;
       this.create = create;
       this.elementFactory = elementFactory;
       this.translate = translate;
@@ -8,6 +11,7 @@ export default class CustomPalette {
   
     getPaletteEntries(element) {
       const {
+        bpmnFactory,
         create,
         elementFactory,
         translate
@@ -18,6 +22,21 @@ export default class CustomPalette {
         create.start(event, shape);
       }
   
+      function createRepeatTask(maxNumberOfRepeat) {
+        return function(event) {
+          const businessObject = bpmnFactory.create('bpmn:Task');
+  
+          businessObject.maxNumberOfRepeat = maxNumberOfRepeat;
+  
+          const shape = elementFactory.createShape({
+            type: 'bpmn:Task',
+            businessObject: businessObject
+          });
+  
+          create.start(event, shape);
+        };
+      }
+
       return {
         'create.when-otherwise': {
           group: 'activity',
@@ -28,11 +47,21 @@ export default class CustomPalette {
             click: createServiceTask
           }
         },
+        'create.repeat': {
+          group: 'activity',
+          className: 'bpmn-icon-loop-marker',
+          title: translate('Create Agama Repeat Block'),
+          action: {
+            dragstart: createRepeatTask(MAX_NUMBER_OF_REPEAT),
+            click: createRepeatTask(MAX_NUMBER_OF_REPEAT)
+          }
+        },
       }
     }
   }
   
   CustomPalette.$inject = [
+    'bpmnFactory',
     'create',
     'elementFactory',
     'palette',

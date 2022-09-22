@@ -13,6 +13,7 @@
     "bpmn-js": "^10.0.0",
     "bpmn-js-properties-panel": "^1.7.0",
     "diagram-js": "^9.0.0",
+    "font-awesome": "^4.7.0",
     "inherits": "^2.0.4",
     "min-dash": "^4.0.0",
     "react": "^18.2.0",

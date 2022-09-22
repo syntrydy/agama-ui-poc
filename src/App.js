@@ -11,6 +11,7 @@ import {
 import PaletteProvider from 'bpmn-js/lib/features/palette/PaletteProvider'
 import Modeler from 'bpmn-js/lib/Modeler'
 import CustomPalette from './customization';
+import customModule from './customization'
 import './styles/diagram-js.css'
 import './styles/bpmn-embedded.css'
 import './styles/App.css'
@@ -30,7 +31,7 @@ function App() {
           parent: '#panel',
         },
         additionalModules: [
-          CustomPalette,
+          customModule,
           BpmnPropertiesPanelModule,
           BpmnPropertiesProviderModule,
         ],
